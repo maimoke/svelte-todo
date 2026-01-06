@@ -1,22 +1,22 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { goto } from '$app/navigation';
-  import { page } from '$app/stores';
+  import { onMount } from "svelte";
+  import { goto } from "$app/navigation";
+  import { page } from "$app/stores";
 
-  let task = '';
-  let description = '';
-  let progress = 'todo';
-  let loading = false;
-  let error: string | null = null;
+  let id = $derived($page.params.id);
 
-  let id: string;
+  let task = $state("");
+  let description = $state("");
+  let progress = $state<"todo" | "in-progress" | "done">("todo");
 
-  $: id = $page.params.id;
+  let loading = $state(false);
+  let error = $state<string | null>(null);
 
   onMount(async () => {
     const res = await fetch(`/task/${id}/edit`);
-    const data = await res.json();
+    if (!res.ok) return;
 
+    const data = await res.json();
     task = data.task;
     description = data.description;
     progress = data.progress;
@@ -27,19 +27,19 @@
     error = null;
 
     const res = await fetch(`/task/${id}/edit`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ task, description, progress })
     });
 
     if (!res.ok) {
       const data = await res.json().catch(() => null);
-      error = data?.message ?? 'Failed to update task';
+      error = data?.message ?? "Failed to update task";
       loading = false;
       return;
     }
 
-    goto('/dashboard');
+    goto("/dashboard");
   }
 </script>
 
@@ -48,20 +48,12 @@
 <form class="form" on:submit|preventDefault={save}>
   <label>
     Task Title
-    <input
-      type="text"
-      bind:value={task}
-      required
-      placeholder="Task name"
-    />
+    <input type="text" bind:value={task} required />
   </label>
+
   <label>
     Description
-    <textarea
-      bind:value={description}
-      rows="4"
-      placeholder="Task details"
-    />
+    <textarea rows="4" bind:value={description} />
   </label>
 
   <label>
@@ -78,15 +70,11 @@
   {/if}
 
   <button disabled={loading}>
-    {loading ? 'Saving…' : 'Save'}
+    {loading ? "Saving…" : "Save"}
   </button>
 </form>
 
 <style>
-  .title {
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
-  }
 
   .form {
     max-width: 420px;
@@ -110,27 +98,12 @@
     border: 1px solid #ccc;
   }
 
-  .actions {
-    display: flex;
-    gap: 0.5rem;
-  }
-
   button {
     padding: 0.45rem 1rem;
     border-radius: 6px;
     border: none;
     cursor: pointer;
   }
-
-  button[type='submit'] {
-    background: #4f46e5;
-    color: white;
-  }
-
-  .cancel {
-    background: #e5e7eb;
-  }
-
   .error {
     color: #dc2626;
     font-size: 0.85rem;

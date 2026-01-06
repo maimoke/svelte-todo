@@ -1,10 +1,10 @@
-import type { PageServerLoad } from './$types';
+import type { PageServerLoad } from '../$types';
 import { db } from '$lib/server/db';
-import { usersTable } from '$lib/server/schema';
+import { taskTable } from '$lib/server/schema';
 
 export const load: PageServerLoad = async () => {
   try {
-    const tasks = await db.select().from(usersTable);
+    const tasks = await db.select().from(taskTable);
 
     return { tasks };
   } catch (err) {

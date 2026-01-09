@@ -18,6 +18,7 @@
       goto("/login");
     }
   });
+  
   async function submit() {
     error = null;
     loading = true;

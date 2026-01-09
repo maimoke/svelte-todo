@@ -30,7 +30,7 @@
     if (session?.user) {
       user = session.user.name;
     } else {
-      goto("/login");
+      // goto("/login");
     }
   });
 

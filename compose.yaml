@@ -1,5 +1,6 @@
 
 services:
+
   db:
     image: postgres
     restart: always
@@ -21,3 +22,25 @@ services:
     restart: always
     ports:
       - 8080:8080
+
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile.migrate
+    depends_on:
+      - db
+    env_file:
+      - .env
+    restart: "no"
+
+    
+  app:
+    build: .
+    container_name: sveltekit_app
+    ports:
+      - "5173:5173"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    restart: unless-stopped

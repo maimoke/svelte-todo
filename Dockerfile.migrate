@@ -1,0 +1,15 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy ONLY what migrations need
+COPY package.json package-lock.json ./
+RUN npm ci
+
+# Copy source & configs
+COPY drizzle.config.ts ./
+COPY src ./src
+COPY auth.ts ./
+COPY .env ./
+
+CMD ["npm", "run", "migrate"]

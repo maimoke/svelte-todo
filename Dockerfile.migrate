@@ -9,7 +9,7 @@ RUN npm ci
 # Copy source & configs
 COPY drizzle.config.ts ./
 COPY src ./src
-COPY auth.ts ./
+# COPY auth.ts ./
 COPY .env ./
 
 CMD ["npm", "run", "migrate"]

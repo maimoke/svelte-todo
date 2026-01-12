@@ -1,8 +1,6 @@
 import "dotenv/config"
 import { betterAuth } from "better-auth";
 import { Pool } from "pg";
-import { sveltekitCookies } from "better-auth/svelte-kit";
-import { getRequestEvent } from "$app/server";
 
 export const auth = betterAuth({
     database: new Pool({
@@ -19,5 +17,4 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
   },
-   plugins: [sveltekitCookies(getRequestEvent)],
 });

@@ -25,7 +25,7 @@
     });
   };
 
-  onMount(async () => {
+  $effect(async () => {
     const { data: session } = await authClient.getSession();
     if (session?.user) {
       user = session.user.name;

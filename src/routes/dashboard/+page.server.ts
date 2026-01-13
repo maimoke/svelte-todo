@@ -4,6 +4,7 @@ import { taskTable } from '$lib/server/schema';
 import { redirect } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({locals}) => {
+  // redirect not signed in user to sign in page
   console.log(locals)
     if (!locals.user) {
     throw redirect(302, "/login");

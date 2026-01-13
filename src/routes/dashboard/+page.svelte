@@ -3,9 +3,9 @@
   import { authClient } from "$lib/auth-client.js";
   import { onMount } from "svelte";
 
-  export let data;
+  const { data = { tasks: [] } } = $props();
   const { tasks } = data;
-  let user = "";
+  let user = $state("");
 
   function createTask() {
     goto("/task/create");
@@ -29,8 +29,6 @@
     const { data: session } = await authClient.getSession();
     if (session?.user) {
       user = session.user.name;
-    } else {
-      // goto("/login");
     }
   });
 

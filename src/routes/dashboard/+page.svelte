@@ -4,7 +4,7 @@
   import { onMount } from "svelte";
 
   const { data = { tasks: [] } } = $props();
-  const { tasks } = data;
+  const { tasks } = $derived(data);
   let user = $state("");
 
   function createTask() {

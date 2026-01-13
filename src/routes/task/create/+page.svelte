@@ -1,6 +1,5 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { onMount } from "svelte";
   import { authClient } from "$lib/auth-client.js";
 
   let task = $state("");
@@ -10,7 +9,7 @@
   let error: string | null = $state(null);
   let createBy = $state("");
 
-  onMount(async () => {
+  $effect(async () => {
     const { data: session } = await authClient.getSession();
     if (session?.user) {
         createBy = session.user.name;

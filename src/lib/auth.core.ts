@@ -1,20 +1,29 @@
-import "dotenv/config"
+import "dotenv/config";
 import { betterAuth } from "better-auth";
 import { Pool } from "pg";
 
-export const auth = betterAuth({
+type CreateAuthOptions = {
+  plugins?: any[];
+};
+
+export function createAuth(options?: CreateAuthOptions) {
+  return betterAuth({
     database: new Pool({
-        // connection options
-         connectionString: process.env.DB_CONNECTION as string,
+      connectionString: process.env.DB_CONNECTION as string,
     }),
-  emailAndPassword: {
-    enabled: true,
-  },
-  socialProviders: {
-    google: {
-      prompt: "select_account",
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+
+    emailAndPassword: {
+      enabled: true,
     },
-  },
-});
+
+    socialProviders: {
+      google: {
+        prompt: "select_account",
+        clientId: process.env.GOOGLE_CLIENT_ID as string,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      },
+    },
+
+    plugins: options?.plugins ?? [],
+  });
+}

@@ -1,10 +1,18 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { authClient } from "$lib/auth-client.js";
-  import { onMount } from "svelte";
+  import { getTasks } from "./data.remote.ts";
 
-  const { data = { tasks: [] } } = $props();
-  const { tasks } = $derived(data);
+
+  //call from ppage.server.ts
+  // const { data = { tasks: [] } } = $props();
+  // const { tasks } = $derived(data);
+
+  //remote function
+  const query = await getTasks();
+  console.log(query);
+  const {tasks} = query;
+
   let user = $state("");
 
   function createTask() {

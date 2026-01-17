@@ -1,5 +1,5 @@
 <script>
-  import { authClient } from "$lib/auth-client";
+  import { authClient } from "../../adapter/auth/auth-client";
 </script>
 
 <button

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { authClient } from "$lib/auth-client.js";
+  import { authClient } from "../../../adapter/auth/auth-client";
 
   let task = $state("");
   let description = $state("");

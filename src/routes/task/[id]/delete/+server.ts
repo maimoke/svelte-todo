@@ -1,5 +1,5 @@
-import { db } from '$lib/server/db';
-import { taskTable } from '$lib/server/schema';
+import { db } from '../../../../adapter/db/db';
+import { taskTable } from '../../../../core/task/schema';
 import { eq } from 'drizzle-orm';
 import { json } from '@sveltejs/kit';
 

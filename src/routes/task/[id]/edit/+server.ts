@@ -1,41 +1,11 @@
-import { json, error } from '@sveltejs/kit';
-import { db } from '../../../../adapter/db/db';
-import { taskTable } from '../../../../core/task/schema';
-import { eq } from 'drizzle-orm';
+import { getTaskService, updateTaskService } from '../../../../core/task/service';
 
-export async function GET({ params }) {
-  const [task] = await db
-    .select()
-    .from(taskTable)
-    .where(eq(taskTable.id, params.id));
-
-  if (!task) {
-    throw error(404, 'Task not found');
-  }
-
-  return json(task);
+export async function GET(params) {
+  const js = getTaskService(params);
+  return js;
 }
 
-export async function PUT({ request, params, locals }) {
-  const body = await request.json();
-
-  if (!body.task) {
-    throw error(400, 'Task title is required');
-  }
-
-  const [updated] = await db
-    .update(taskTable)
-    .set({
-      task: body.task,
-      description: body.description,
-      progress: body.progress
-    })
-    .where(eq(taskTable.id, params.id))
-    .returning();
-
-  if (!updated) {
-    throw error(404, 'Task not found');
-  }
-
-  return json(updated);
+export async function PUT({request, params, locals}) {
+  const js = updateTaskService({request , params , locals});
+  return js
 }

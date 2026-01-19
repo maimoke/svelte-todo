@@ -27,3 +27,5 @@ export function createAuth(options?: CreateAuthOptions) {
     plugins: options?.plugins ?? [],
   });
 }
+
+export const auth = createAuth();

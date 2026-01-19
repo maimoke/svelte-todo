@@ -35,7 +35,9 @@ services:
 
     
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: dockerfile
     container_name: sveltekit_app
     ports:
       - "5173:5173"

@@ -40,7 +40,7 @@ services:
       dockerfile: dockerfile
     container_name: sveltekit_app
     ports:
-      - "5173:5173"
+      - "3000:3000"
     env_file:
       - .env
     depends_on:
